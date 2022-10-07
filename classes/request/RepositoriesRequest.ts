@@ -1,4 +1,6 @@
-import { DataUsersGitHub } from "types/DataFromGitHubTypes";
+import { accessToDataFromRequest } from "lib/utils/utils";
+import { DataRepositoriesGitHub, DataUsersGitHub, ItemRepository } from "types/DataFromGitHubTypes";
+import { ResultResponse } from "types/RequestTypes";
 import BaseRequest from "./BaseRequest";
 
 export class RepositoriesRequest extends BaseRequest{
@@ -9,10 +11,14 @@ export class RepositoriesRequest extends BaseRequest{
         const languagesLen = languages.length;
         const indexLanguage = (Math.random()*languagesLen);
         try {
-            const requestRepositories = await this.makeRequest<DataUsersGitHub>({
-                pathEndpoint: `repositories?q=${languages[indexLanguage]} in:name`
-            });
-            return requestRepositories.data;
+            const requestRepositories: ResultResponse<DataRepositoriesGitHub> = await this.makeRequest<DataRepositoriesGitHub>({
+                pathEndpoint: `repositories?q=${languages[indexLanguage]} in:name&sort=stars&order=desc&page=1&per_page=1`
+            });            
+            
+            if(!requestRepositories) throw new Error("Data not found");
+            const res = accessToDataFromRequest<Array<ItemRepository>>(Object.entries(requestRepositories));
+            
+            return res;
         } catch (error) {
             console.error(error);
             throw new Error("Error in request random repositories");

@@ -3,7 +3,8 @@ import { ResultResponse, MakeRequestParams } from "types/RequestTypes";
 export default class BaseRequest {
     private BASE_PATH: string = 'https://api.github.com/';
     private _headers: Headers = new Headers({
-        '': ''
+        "Content-Type": "application/json; utf-8",
+        "Time-Zone": "Europe/Amsterdam"
     });
 
     constructor(headers?: Headers) {
@@ -20,14 +21,18 @@ export default class BaseRequest {
         });
         
         const resultResponse: ResultResponse<T> = {
-            data: null,
+            data: undefined,
             error: null,
             statusRequest: 400
         };
         
         try {
             const resultJSON: T = await request.json();
-            resultResponse.data = resultJSON;
+            
+            
+            if(resultJSON) resultResponse.data = resultJSON;
+            console.log(resultJSON, '********');
+            resultResponse.statusRequest = request.status;
         } catch (error: any) {
             resultResponse.statusRequest = request.status;
             resultResponse.error = error;    
