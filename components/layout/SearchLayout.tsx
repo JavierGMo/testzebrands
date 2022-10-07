@@ -13,7 +13,7 @@ export function SearchLayout({ children, placeholderSearch }: SearchLayoutProps)
                 showSearchInput={true}
                 placheholderSearch={placeholderSearch}
             />
-            <main>
+            <main className="px-3">
                 { children }
             </main>
         </>
