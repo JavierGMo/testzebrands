@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 import { BasicInformation } from "components/information/BasicInformation";
 import { CircleAvatar } from "components/avatars/CircleAvatar";
+import { LinkWithIcon } from "components/links/LinkWithIcon";
+import { faLink } from '@fortawesome/free-solid-svg-icons'
 
 type BasicCardProps = {
     className?: string;
@@ -13,10 +15,27 @@ type BasicCardProps = {
     children?: ReactNode;
 };
 
-export function BasicCard({ className, typeSearch, avatar, name, labelAboutInformation, aboutInformation, linkToGitHub, children }: BasicCardProps) {
+export function BasicCard({
+    className,
+    typeSearch,
+    avatar,
+    name,
+    labelAboutInformation,
+    aboutInformation,
+    linkToGitHub,
+    children
+}: BasicCardProps) {
     return (
         <div className={`box ${className}`}>
-            <p className="is-size-2 px-2">{typeSearch}</p>
+            <div className="mt-3">
+                <LinkWithIcon
+                    className="is-size-4 is-underlined"
+                    href={`/search/users/${name}`}
+                    underlined
+                    textLink={name}
+                    trailingIcon={faLink}
+                />
+            </div>
             <div className="columns px-2">
                 { avatar && <div className="column is-3"><CircleAvatar srcAvatar={avatar} altAvatar={name} /></div>}
                 <BasicInformation
@@ -24,6 +43,7 @@ export function BasicCard({ className, typeSearch, avatar, name, labelAboutInfor
                     name={name}
                     labelAboutInformation={labelAboutInformation}
                     aboutInformation={aboutInformation}
+                    typeSearch={typeSearch}
                     linkToGitHub={linkToGitHub}
                 />
             </div>

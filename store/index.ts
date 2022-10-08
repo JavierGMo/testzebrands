@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import searchesReducer from './slices/searches/searchesSlice'
+import menuOptionSearchReducer from './slices/menus/menuOptionSearchSlice';
 
 export const store = configureStore({
     reducer: {
         shearches: searchesReducer,
+        menuOptionSearch: menuOptionSearchReducer
     },
 });
 

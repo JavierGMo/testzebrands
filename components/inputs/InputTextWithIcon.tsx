@@ -1,8 +1,12 @@
-import { FormEvent } from 'react';
+import { FormEvent, KeyboardEvent } from 'react';
 import { IconDefinition } from '@fortawesome/free-brands-svg-icons';
 import { GenericIcon } from 'components/icons/GenericIcon';
 
 type OnChangeInputTextType = {
+    (event: FormEvent<HTMLInputElement>): void
+};
+
+type OnKeyUpInputType = {
     (event: FormEvent<HTMLInputElement>): void
 };
 
@@ -13,16 +17,17 @@ type InputWithIconProps = {
     label: string;
     placeholder?: string;
     value: string;
-    onChange: OnChangeInputTextType
+    onChange: OnChangeInputTextType,
+    onKeyUp?: (event: KeyboardEvent<HTMLInputElement>) => void
 };
 
 export function InputTextWithIcon({
-    className,
     leadingIcon,
     trailingIcon,
     placeholder,
     value,
-    onChange
+    onChange,
+    onKeyUp,
     
 }: InputWithIconProps) {
     return (
@@ -34,6 +39,7 @@ export function InputTextWithIcon({
                     placeholder={placeholder}
                     value={value}
                     onChange={onChange}
+                    onKeyUp={onKeyUp}
                 />
                 {
                     leadingIcon && <GenericIcon

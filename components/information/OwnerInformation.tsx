@@ -31,7 +31,7 @@ export function OwnerInformation({ avatar, name, userNameLogin, linkUserOnGitHub
                     <p>Name: {name}</p>
                     <p>Username: {userNameLogin}</p>
                     <LinkWithIcon
-                        className="has-background-grey-lighter"
+                        className="button has-background-grey-lighter"
                         href={linkUserOnGitHub}
                         textLink="View profile on GitHub"
                         trailingIcon={faGithub}

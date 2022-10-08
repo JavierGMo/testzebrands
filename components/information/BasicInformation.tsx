@@ -6,16 +6,27 @@ type BasicInformationProps = {
     name: string;
     labelAboutInformation?: string;
     aboutInformation?: string;
+    typeSearch: string;
     linkToGitHub: string;
 };
 
-export function BasicInformation({ className, name, labelAboutInformation, aboutInformation, linkToGitHub }: BasicInformationProps){
+export function BasicInformation({
+        className,
+        name,
+        labelAboutInformation,
+        aboutInformation,
+        typeSearch,
+        linkToGitHub
+}: BasicInformationProps){
     return (
         <div className={className}>
-            <p>Name: {name}</p>
-            <p>{labelAboutInformation}: {aboutInformation}</p>
+            <div className="mb-2">
+                <p>Name: {name}</p>
+                <p>{labelAboutInformation}: {aboutInformation}</p>
+                <p>Type: {typeSearch}</p>
+            </div>
             <LinkWithIcon
-                    className="has-background-grey-lighter"
+                    className="button has-background-grey-lighter"
                     href={linkToGitHub}
                     textLink={"View on GitHub"}
                     trailingIcon={faGithub}

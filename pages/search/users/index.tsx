@@ -4,7 +4,7 @@ import { BasicCard } from "components/cards/BasicCard";
 const a = [
     {
         avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" string;",
+        name:" nome;",
         labelAboutInformation:" string;",
         aboutInformation:" string;",
         linkToGitHub:" string;",

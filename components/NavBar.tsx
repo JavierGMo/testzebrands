@@ -1,11 +1,14 @@
 import Link from "next/link";
 
-import type { RootState } from "store";
-import { useSelector, useDispatch } from 'react-redux'
-import { newSearch } from 'store/slices/searches/searchesSlice';
 import { FormEvent, useEffect } from "react";
+import { ChangeEvent, KeyboardEvent } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import type { RootState } from "store";
+import { newSearch } from 'store/slices/searches/searchesSlice';
+import { optionSearch } from 'store/slices/menus/menuOptionSearchSlice';
 import { InputTextWithIcon } from "./inputs/InputTextWithIcon";
-import { faSearchengin, IconDefinition } from '@fortawesome/free-brands-svg-icons'
+import { faSearchengin } from '@fortawesome/free-brands-svg-icons'
+import { MenuSelect } from "./menus/MenuSelect";
 
 
 type NavBarProps = {
@@ -13,9 +16,23 @@ type NavBarProps = {
     placheholderSearch?: string;
 };
 
+const options = [
+    {
+        value: 'a',
+        text: 'Hola'
+    },
+    {
+        value: 'b',
+        text: 'Adios'
+    },
+
+];
+
 export function NavBar({ showSearchInput, placheholderSearch }: NavBarProps){
     
     const searches = useSelector((state: RootState)=> state.shearches.value);
+    const menuOptionSearch = useSelector((state: RootState) => state.menuOptionSearch.value);
+
     const dispatch = useDispatch();
 
     const handleChangeSearch = (event: FormEvent<HTMLInputElement>)=>{
@@ -23,29 +40,43 @@ export function NavBar({ showSearchInput, placheholderSearch }: NavBarProps){
         dispatch(newSearch(value));
     };
 
+    const handleChangeOptionSearch = (event: ChangeEvent<HTMLSelectElement>): void => {
+        const value = event.currentTarget.value;
+        dispatch(optionSearch(value));
+    };
+
+    const handleOnKeyUpEnterInputSearch = (event: KeyboardEvent<HTMLInputElement>)=>{
+        const code = event.code;
+        if(code !== 'Enter') return;
+    }
+
     useEffect(()=>{
         dispatch(newSearch(''));
+        dispatch(optionSearch(''));
     }, []);
 
     return (
         <nav className="level is-flex px-4 py-2">
             {
                 showSearchInput && (
-                    <div>
-                        {/*<input
-                            type="text"
-                            className="input"
-                            placeholder={placheholderSearch??'Buscar'}
-                            onChange={handleChangeSearch}
-                            value={searches}
-                        />*/}
-                        <InputTextWithIcon
-                            onChange={handleChangeSearch}
-                            value={searches}
-                            label="Search"
-                            placeholder={placheholderSearch??'Search'}
-                            trailingIcon={faSearchengin}
-                        />
+                    <div className="columns">
+                        <div className="column">
+                            <InputTextWithIcon
+                                onKeyUp={handleOnKeyUpEnterInputSearch}
+                                onChange={handleChangeSearch}
+                                value={searches}
+                                label="Search"
+                                placeholder={placheholderSearch??'Search'}
+                                trailingIcon={faSearchengin}
+                            />
+                        </div>
+                        <div className="column">
+                            <MenuSelect
+                                options={options}
+                                onChange={handleChangeOptionSearch}
+                                value={menuOptionSearch}
+                            />
+                        </div>
                     </div>
                 )
             }
@@ -57,7 +88,6 @@ export function NavBar({ showSearchInput, placheholderSearch }: NavBarProps){
                     <Link href={'/search/repositories'} >Search Repositories</Link>
                 </div>
             </div>
-            
         </nav>
     );
 };
