@@ -8,12 +8,14 @@ import { newSearch } from 'store/slices/searches/searchesSlice';
 import { optionSearch } from 'store/slices/menus/menuOptionSearchSlice';
 import { InputTextWithIcon } from "./inputs/InputTextWithIcon";
 import { faSearchengin } from '@fortawesome/free-brands-svg-icons'
-import { MenuSelect } from "./menus/MenuSelect";
+import { ItemMenu, MenuSelect } from "./menus/MenuSelect";
 
 
 type NavBarProps = {
     showSearchInput: boolean;
     placheholderSearch?: string;
+    optionsForSearch?: Array<ItemMenu>;
+    actionForSearch?: (search: string, typeSearch: string )=>void;
 };
 
 const options = [
@@ -28,7 +30,12 @@ const options = [
 
 ];
 
-export function NavBar({ showSearchInput, placheholderSearch }: NavBarProps){
+export function NavBar({
+    showSearchInput,
+    placheholderSearch,
+    optionsForSearch,
+    actionForSearch
+}: NavBarProps){
     
     const searches = useSelector((state: RootState)=> state.shearches.value);
     const menuOptionSearch = useSelector((state: RootState) => state.menuOptionSearch.value);
@@ -48,6 +55,7 @@ export function NavBar({ showSearchInput, placheholderSearch }: NavBarProps){
     const handleOnKeyUpEnterInputSearch = (event: KeyboardEvent<HTMLInputElement>)=>{
         const code = event.code;
         if(code !== 'Enter') return;
+        actionForSearch?.('', '');
     }
 
     useEffect(()=>{
@@ -70,13 +78,16 @@ export function NavBar({ showSearchInput, placheholderSearch }: NavBarProps){
                                 trailingIcon={faSearchengin}
                             />
                         </div>
-                        <div className="column">
-                            <MenuSelect
-                                options={options}
-                                onChange={handleChangeOptionSearch}
-                                value={menuOptionSearch}
-                            />
-                        </div>
+                        {
+                            optionsForSearch && 
+                            <div className="column">
+                                <MenuSelect
+                                    options={optionsForSearch}
+                                    onChange={handleChangeOptionSearch}
+                                    value={menuOptionSearch}
+                                />
+                            </div>
+                        }
                     </div>
                 )
             }

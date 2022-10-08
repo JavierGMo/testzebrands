@@ -61,10 +61,26 @@ const a = [
     },
 ];
 
+const opt = [
+    {
+        value: 'string',
+        text: 'string',
+    },
+    {
+        value: 'string',
+        text: 'string',
+    },
+    {
+        value: 'string',
+        text: 'string',
+    },
+];
+
 export default function SearchRepositories(){
     
     return (
         <SearchLayout
+            optionsForSearch={opt}
             placeholderSearch="Search repositories"
         >
         <div className="columns is-multiline is-centered is-3 is-gapless">

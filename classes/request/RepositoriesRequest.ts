@@ -15,10 +15,9 @@ export class RepositoriesRequest extends BaseRequest{
                 pathEndpoint: `repositories?q=${languages[indexLanguage]} in:name&sort=stars&order=desc&page=1&per_page=1`
             });            
             
-            if(!requestRepositories) throw new Error("Data not found");
-            const res = accessToDataFromRequest<Array<ItemRepository>>(Object.entries(requestRepositories));
-            
-            return res;
+            if(!requestRepositories?.data) throw new Error("Data not found");
+            // const res = accessToDataFromRequest<Array<ItemRepository>>(Object.entries(requestRepositories));
+            return requestRepositories.data?.items;
         } catch (error) {
             console.error(error);
             throw new Error("Error in request random repositories");
@@ -36,9 +35,7 @@ export class RepositoriesRequest extends BaseRequest{
         } catch (error) {
             console.error(error);
             throw new Error(`Error in request repositories: ${error}`);
-            
         }
-        
     }
 
 }

@@ -1,17 +1,22 @@
 import { ReactNode } from "react";
 import { NavBar } from "components/NavBar";
+import { ItemMenu } from "components/menus/MenuSelect";
 
 type SearchLayoutProps = {
     children: ReactNode;
     placeholderSearch: string;
+    optionsForSearch: Array<ItemMenu>;
+    actionForSearch: (search: string, typeSearch: string) => void;
 };
 
-export function SearchLayout({ children, placeholderSearch }: SearchLayoutProps) {
+export function SearchLayout({ children, placeholderSearch, optionsForSearch, actionForSearch }: SearchLayoutProps) {
     return (
         <>
             <NavBar
                 showSearchInput={true}
                 placheholderSearch={placeholderSearch}
+                optionsForSearch={optionsForSearch}
+                actionForSearch={actionForSearch}
             />
             <main className="px-3">
                 { children }
