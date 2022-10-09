@@ -26,13 +26,20 @@ export class RepositoriesRequest extends BaseRequest{
         
     }
 
-    async getRepositoriesByName(repositoriesToSearch=''){
-        const requestRepositories = await this.makeRequest<DataUsersGitHub>({
-            pathEndpoint: `search/repositories?q=${repositoriesToSearch} in:name`
-        });
+    async getRepositoriesByFilter(toSearch:string=''){
+        if(!toSearch) throw new Error("The query param must not to be empty");
+
+        
 
         try {
-            return requestRepositories;
+            const requestRepositories = await this.makeRequest<DataRepositoriesGitHub>({
+                pathEndpoint: `search/repositories?q=${toSearch}&page=1&per_page=10&sort=stars&order=desc`
+            });
+            if(requestRepositories.error) throw new Error("Error in request repositories", requestRepositories.error);
+            
+            if(!requestRepositories.data?.items)throw new Error("Data doesn't exist");
+
+            return requestRepositories.data.items;
         } catch (error) {
             console.error(error);
             throw new Error(`Error in request repositories: ${error}`);

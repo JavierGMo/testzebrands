@@ -1,73 +1,13 @@
 import { SearchLayout } from "components/layout/SearchLayout";
 import { BasicCard } from "components/cards/BasicCard";
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import type { RootState } from "store";
-import { selectSearchFilterForRepositories, selectSearchFilterForUsers } from "lib/utils/utils";
+import { selectSearchFilterForUsers } from "lib/utils/utils";
 import { UsersRequest } from "classes/request/UsersRequest";
 import { useState } from "react";
 import { ItemUser } from "types/DataFromGitHubTypes";
 
-
-
-const a = [
-    {
-        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" nome;",
-        labelAboutInformation:" string;",
-        aboutInformation:" string;",
-        linkToGitHub:" string;",
-        footerChildren:" ReactNode;",
-    },
-    {
-        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" string;",
-        labelAboutInformation:" string;",
-        aboutInformation:" string;",
-        linkToGitHub:" string;",
-        footerChildren:" ReactNode;",
-    },
-    {
-        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" string;",
-        labelAboutInformation:" string;",
-        aboutInformation:" string;",
-        linkToGitHub:" string;",
-        footerChildren:" ReactNode;",
-    },
-    {
-        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" string;",
-        labelAboutInformation:" string;",
-        aboutInformation:" string;",
-        linkToGitHub:" string;",
-        footerChildren:" ReactNode;",
-    },
-    {
-        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" string;",
-        labelAboutInformation:" string;",
-        aboutInformation:" string;",
-        linkToGitHub:" string;",
-        footerChildren:" ReactNode;",
-    },
-    {
-        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" string;",
-        labelAboutInformation:" string;",
-        aboutInformation:" string;",
-        linkToGitHub:" string;",
-        footerChildren:" ReactNode;",
-    },
-    {
-        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" string;",
-        labelAboutInformation:" string;",
-        aboutInformation:" string;",
-        linkToGitHub:" string;",
-        footerChildren:" ReactNode;",
-    },
-];
 
 const opt = [
     {

@@ -52,12 +52,12 @@ export function selectSearchFilterForRepositories({
     typeSearch=''
 }): string | undefined {
     const filters = {
-        'name': `?q=${search} in:name&sort=stars&order=desc`,
-        'description': `?q=${search} in:name,description&sort=stars&order=desc`,
-        'topics': `?q=${search} in:topics&sort=stars&order=desc`,
-        'readme': `?q=${search} in:readme&sort=stars&order=desc`,
-        'owner': `?q=repo:here-name-owner/${search}&sort=stars&order=desc`,
-        'language': `?q=${search}+language:here-language&sort=stars&order=desc`
+        'name': `${search} in:name`,
+        'description': `${search} in:name,description`,
+        'topics': `${search} in:topics`,
+        'readme': `${search} in:readme`,
+        'owner': `repo:here-name-owner/${search}`,
+        'language': `${search}+language:here-language`
     };
 
     const valueFilter = getValueFromObjectWithKeyStringDynamic<string>(typeSearch, filters);
