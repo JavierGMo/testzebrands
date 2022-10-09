@@ -1,5 +1,16 @@
 import { UsersRequest } from "classes/request/UsersRequest";
 
+export function getValueFromObjectWithKeyStringDynamic<T>(key: string, obj: {}): T {
+    type ObjectKey = keyof typeof obj;
+
+    const keyDynamic = key as ObjectKey;
+
+    const value = obj[keyDynamic];
+
+    return value;
+}
+
+
 export function accessToDataFromRequest<T>(entries: Array<Array<T>>): T {
     const [ data, status, error ] = entries;
     const [keyString, valueObject] = data;
@@ -17,34 +28,40 @@ export function accessToDataFromRequest<T>(entries: Array<Array<T>>): T {
  * default typeSearch: login. Matches with many users
  * 
  */
-export function getQueryParam({
+export function selectSearchFilterForUsers({
     search='',
     typeSearch=''
-}) {
-    const query = {param: ''};
-    
-    switch (typeSearch) {
-        case 'user':
-            query.param = `q=user:${search}`;
-            break;
-        case 'login':
-            query.param = `q=${search} in:login`;
-            break;
-        case 'name':
-            query.param = `q=${search} in:name`;
-            break;
-        case 'fullname':
-            query.param = `q=fullname:${search}`;
-            break;
-        case 'email':
-            query.param = `q=${search} in:email`;
-            break;
-        case 'org':
-            query.param = `q=$org:${search} in:users`;
-            break;
-        default:
-            break;
-    }
+}): string | undefined {
+    const filters = {
+        'user': `user:${search}`,
+        'login': `${search} in:login`,
+        'name': `${search} in:name`,
+        'fullname': `fullname:${search}`,
+        'email': `${search} in:email`,
+        'org': `org:${search} type:users`
+    };
 
-    return (query.param);
+    const valueFilter = getValueFromObjectWithKeyStringDynamic<string>(typeSearch, filters);
+
+    return valueFilter;
+    
+}
+
+export function selectSearchFilterForRepositories({
+    search='',
+    typeSearch=''
+}): string | undefined {
+    const filters = {
+        'name': `?q=${search} in:name&sort=stars&order=desc`,
+        'description': `?q=${search} in:name,description&sort=stars&order=desc`,
+        'topics': `?q=${search} in:topics&sort=stars&order=desc`,
+        'readme': `?q=${search} in:readme&sort=stars&order=desc`,
+        'owner': `?q=repo:here-name-owner/${search}&sort=stars&order=desc`,
+        'language': `?q=${search}+language:here-language&sort=stars&order=desc`
+    };
+
+    const valueFilter = getValueFromObjectWithKeyStringDynamic<string>(typeSearch, filters);
+    
+    return valueFilter;
+
 }

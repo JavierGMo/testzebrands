@@ -6,7 +6,7 @@ type SearchLayoutProps = {
     children: ReactNode;
     placeholderSearch: string;
     optionsForSearch: Array<ItemMenu>;
-    actionForSearch: (search: string, typeSearch: string) => void;
+    actionForSearch: () => void;
 };
 
 export function SearchLayout({ children, placeholderSearch, optionsForSearch, actionForSearch }: SearchLayoutProps) {

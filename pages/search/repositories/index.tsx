@@ -77,11 +77,12 @@ const opt = [
 ];
 
 export default function SearchRepositories(){
-    
+    const hn = (a: string, b: string) => {};
     return (
         <SearchLayout
             optionsForSearch={opt}
             placeholderSearch="Search repositories"
+            actionForSearch={hn}
         >
         <div className="columns is-multiline is-centered is-3 is-gapless">
             {

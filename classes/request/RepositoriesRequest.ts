@@ -14,10 +14,11 @@ export class RepositoriesRequest extends BaseRequest{
             const requestRepositories: ResultResponse<DataRepositoriesGitHub> = await this.makeRequest<DataRepositoriesGitHub>({
                 pathEndpoint: `repositories?q=${languages[indexLanguage]} in:name&sort=stars&order=desc&page=1&per_page=1`
             });            
-            
+            //Change to repositories and not repositories with more data
             if(!requestRepositories?.data) throw new Error("Data not found");
-            // const res = accessToDataFromRequest<Array<ItemRepository>>(Object.entries(requestRepositories));
-            return requestRepositories.data?.items;
+
+            const res = accessToDataFromRequest<Array<ItemRepository>>(Object.entries(requestRepositories));
+            return res;
         } catch (error) {
             console.error(error);
             throw new Error("Error in request random repositories");

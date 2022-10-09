@@ -22,7 +22,7 @@ export function BasicInformation({
         <div className={className}>
             <div className="mb-2">
                 <p>Name: {name}</p>
-                <p>{labelAboutInformation}: {aboutInformation}</p>
+                { (labelAboutInformation && labelAboutInformation) && <p>{labelAboutInformation}: {aboutInformation}</p>}
                 <p>Type: {typeSearch}</p>
             </div>
             <LinkWithIcon

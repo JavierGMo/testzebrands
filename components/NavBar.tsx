@@ -15,7 +15,7 @@ type NavBarProps = {
     showSearchInput: boolean;
     placheholderSearch?: string;
     optionsForSearch?: Array<ItemMenu>;
-    actionForSearch?: (search: string, typeSearch: string )=>void;
+    actionForSearch?: ()=>void;
 };
 
 const options = [
@@ -55,7 +55,7 @@ export function NavBar({
     const handleOnKeyUpEnterInputSearch = (event: KeyboardEvent<HTMLInputElement>)=>{
         const code = event.code;
         if(code !== 'Enter') return;
-        actionForSearch?.('', '');
+        actionForSearch?.();
     }
 
     useEffect(()=>{

@@ -4,7 +4,7 @@ export default class BaseRequest {
     private BASE_PATH: string = 'https://api.github.com/';
     private _headers: Headers = new Headers({
         "Content-Type": "application/json; utf-8",
-        "Time-Zone": "Europe/Amsterdam"
+        
     });
 
     constructor(headers?: Headers) {
@@ -13,7 +13,8 @@ export default class BaseRequest {
 
     async makeRequest<T>({ method='GET', pathEndpoint, body }: MakeRequestParams): Promise<ResultResponse<T>>{
         const fullPath = `${this.BASE_PATH}${pathEndpoint}`;
-
+        console.log(fullPath);
+        
         const request = await fetch(fullPath, {
             method,
             body,
@@ -28,10 +29,10 @@ export default class BaseRequest {
         
         try {
             const resultJSON: T = await request.json();
+            console.log(resultJSON, '*******');
             
             
             if(resultJSON) resultResponse.data = resultJSON;
-            console.log(resultJSON, '********');
             resultResponse.statusRequest = request.status;
         } catch (error: any) {
             resultResponse.statusRequest = request.status;

@@ -38,7 +38,7 @@ export async function getServerSideProps() {
 
   try {
     const randomRepositories = await requestRepositories.getRepositoriesByNameTechnologyRandom();
-    //console.log(randomRepositories);
+    console.log(randomRepositories);
     
     if(randomRepositories) {
       console.log('Hola');
