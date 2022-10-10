@@ -65,3 +65,17 @@ export function selectSearchFilterForRepositories({
     return valueFilter;
 
 }
+
+/**
+ * get range numbers
+ * @param start initial position
+ * @param end end position
+ * @param step step by step
+ * @returns 
+ */
+export const range = (start: number, end: number, step: number=1)=>{
+    return Array.from({
+        length: Math.ceil((end-start)/step),
+    },
+    (_, i)=>i+start);
+};

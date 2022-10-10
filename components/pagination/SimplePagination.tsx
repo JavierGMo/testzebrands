@@ -1,45 +1,65 @@
-import { useMemo } from "react";
+import { usePagination } from "hooks/usePagination";
 
 type SimplePaginationProps = {
+    onPageChange: (index: number)=>void
     totalItems: number;
     pageSize: number;
     currentPage: number;
     siblingCount: number;
 };
 
-export function SimplePagination({ totalItems, pageSize, currentPage, siblingCount }: SimplePaginationProps) {
-    const range = (start: number, end: number, step: number=1)=>{
-        return Array.from({
-            length: Math.ceil((end-start)/step),
-        },
-        (_, i)=>{
-            start+step*i
-        });
-    };
-    const paginationRange = useMemo(()=>{
-        const totalPageCount = Math.ceil(totalItems/pageSize);
-        const totalPageNumbers = siblingCount+5;
+export function SimplePagination({ onPageChange, totalItems, pageSize, currentPage, siblingCount }: SimplePaginationProps) {
+    const pagination = usePagination(
+      totalItems,
+      pageSize,
+      currentPage,
+      siblingCount  
+    );
+    if(currentPage === 0 || (pagination?.length && pagination.length < 2)) return (<></>);
 
-        if(totalPageNumbers >= totalPageCount) return range(1, totalPageCount);
+    const onNext = ()=>{
+        onPageChange(currentPage+1);
+    }
 
-        const leftSiblingsIndex = Math.max(currentPage-siblingCount, 1);
+    const onPrevious = ()=>{
+        onPageChange(currentPage-1);
+    }
 
-        
-
-    },[totalItems, currentPage]);
-
+    const lastPage =  pagination?pagination[pagination?.length - 1]:1;
     return (
         <nav className="pagination is-centered py-4" role="navigation" aria-label="pagination">
-            <a className="pagination-previous">Previous</a>
-            <a className="pagination-next">Next page</a>
+            <a
+                className={`pagination-previous ${currentPage === 1?'is-disabled':''}`}
+                onClick={currentPage === 1?undefined:onPrevious}
+            >
+                Previous
+            </a>
+            <a
+                className={`pagination-next ${currentPage === lastPage?'is-disabled':''}`}
+                onClick={currentPage === lastPage?undefined:onNext}
+            >
+                Next page
+            </a>
             <ul className="pagination-list">
-                <li><a className="pagination-link" aria-label="Goto page 1">1</a></li>
-                <li><span className="pagination-ellipsis">&hellip;</span></li>
-                <li><a className="pagination-link" aria-label="Goto page 45">45</a></li>
-                <li><a className="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
-                <li><a className="pagination-link" aria-label="Goto page 47">47</a></li>
-                <li><span className="pagination-ellipsis">&hellip;</span></li>
-                <li><a className="pagination-link" aria-label="Goto page 86">86</a></li>
+                {
+                    pagination && pagination.map((page, index)=>{
+                        if(page === '...')
+                            return <li key={index}><span className="pagination-ellipsis">{page}</span></li>
+                        return (
+                            <li key={index}>
+                                <a
+                                    className={`pagination-link ${page===currentPage?'is-current':''}`}
+                                    aria-label={`Goto page ${page}`}
+                                    onClick={()=>{
+                                        if(typeof page === 'number') onPageChange(page);
+                                    }}
+                                >
+                                        {page}
+                                </a>
+                            </li>
+                        );
+                    })
+                }
             </ul>
         </nav>
     );

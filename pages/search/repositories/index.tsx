@@ -9,65 +9,6 @@ import { RepositoriesRequest } from "classes/request/RepositoriesRequest";
 import { ItemRepository, ItemUser } from "types/DataFromGitHubTypes";
 import { SimplePagination } from "components/pagination/SimplePagination";
 
-const a = [
-    {
-        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" string;",
-        labelAboutInformation:" string;",
-        aboutInformation:" string;",
-        linkToGitHub:" string;",
-        footerChildren:" ReactNode;",
-    },
-    {
-        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" string;",
-        labelAboutInformation:" string;",
-        aboutInformation:" string;",
-        linkToGitHub:" string;",
-        footerChildren:" ReactNode;",
-    },
-    {
-        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" string;",
-        labelAboutInformation:" string;",
-        aboutInformation:" string;",
-        linkToGitHub:" string;",
-        footerChildren:" ReactNode;",
-    },
-    {
-        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" string;",
-        labelAboutInformation:" string;",
-        aboutInformation:" string;",
-        linkToGitHub:" string;",
-        footerChildren:" ReactNode;",
-    },
-    {
-        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" string;",
-        labelAboutInformation:" string;",
-        aboutInformation:" string;",
-        linkToGitHub:" string;",
-        footerChildren:" ReactNode;",
-    },
-    {
-        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" string;",
-        labelAboutInformation:" string;",
-        aboutInformation:" string;",
-        linkToGitHub:" string;",
-        footerChildren:" ReactNode;",
-    },
-    {
-        avatar: "https://avatars.githubusercontent.com/u/1?v=4",
-        name:" string;",
-        labelAboutInformation:" string;",
-        aboutInformation:" string;",
-        linkToGitHub:" string;",
-        footerChildren:" ReactNode;",
-    },
-];
-
 const opt = [
     {
         value: 'name',
@@ -98,7 +39,8 @@ const opt = [
 export default function SearchRepositories(){
     const searches = useSelector((state: RootState)=> state.shearches.value);
     const menuOptionSearch = useSelector((state: RootState) => state.menuOptionSearch.value);
-
+    
+    const [currentPage, setCurrentPage] = useState(1);
     const [repositories, setRepositories] = useState<Array<ItemRepository>>([]);
 
     const actionSearch = () => {
@@ -158,8 +100,11 @@ export default function SearchRepositories(){
             }
         </div>
         <SimplePagination
-            totalItems={10}
-            perPage={10}
+            onPageChange={page=>setCurrentPage(page)}
+            totalItems={1210}
+            pageSize={10}
+            currentPage={currentPage}
+            siblingCount={1}
         />
         </SearchLayout>
     );
