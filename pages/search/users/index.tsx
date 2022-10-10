@@ -7,6 +7,7 @@ import { selectSearchFilterForUsers } from "lib/utils/utils";
 import { UsersRequest } from "classes/request/UsersRequest";
 import { useState } from "react";
 import { ItemUser } from "types/DataFromGitHubTypes";
+import { SimplePagination } from "components/pagination/SimplePagination";
 
 
 const opt = [
@@ -40,6 +41,7 @@ export default function SearchUsers(){
     const searches = useSelector((state: RootState)=> state.shearches.value);
     const menuOptionSearch = useSelector((state: RootState) => state.menuOptionSearch.value);
 
+    const [currentPage, setCurrentPage] = useState(1);
     const [userFromGitHub, setUserFromGitHub] = useState<Array<ItemUser>>([]);
 
     const actionGetUsers = () => {
@@ -75,7 +77,7 @@ export default function SearchUsers(){
     return (
         <SearchLayout
             optionsForSearch={opt}
-            placeholderSearch="Search usres"
+            placeholderSearch="Search users"
             actionForSearch={actionGetUsers}
         >
             <div className="columns is-multiline is-centered is-3 is-gapless">
@@ -95,6 +97,13 @@ export default function SearchUsers(){
                     })
                 }
             </div>
+            <SimplePagination
+                onPageChange={page=>setCurrentPage(page)}
+                totalItems={1210}
+                pageSize={10}
+                currentPage={currentPage}
+                siblingCount={1}
+            />
         </SearchLayout>
     );
 };

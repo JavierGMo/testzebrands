@@ -10,8 +10,7 @@ type OwnerInformationProps = {
 };
 
 const dividerStyle = {
-    borderTop: '1px solid hsl(0, 0%, 71%)',
-
+    borderTop: '1px solid hsl(0, 0%, 71%)'
 };
 
 export function OwnerInformation({ avatar, name, userNameLogin, linkUserOnGitHub }: OwnerInformationProps) {

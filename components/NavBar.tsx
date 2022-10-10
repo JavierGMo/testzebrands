@@ -18,17 +18,10 @@ type NavBarProps = {
     actionForSearch?: ()=>void;
 };
 
-const options = [
-    {
-        value: 'a',
-        text: 'Hola'
-    },
-    {
-        value: 'b',
-        text: 'Adios'
-    },
-
-];
+const navStyle = {
+    backgroundColor: '#181818',
+    color: '#F2F2F2'
+};
 
 export function NavBar({
     showSearchInput,
@@ -64,7 +57,7 @@ export function NavBar({
     }, []);
 
     return (
-        <nav className="level is-flex px-4 py-2">
+        <nav className="level is-flex px-4 py-2" style={navStyle}>
             {
                 showSearchInput && (
                     <div className="columns">
