@@ -24,3 +24,27 @@ a {
     background: #F2F2F2;
   }
 }
+
+.truncate-text-w-100px{
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.h-25-vh{
+  height: 25vh;
+}
+
+.h-25-percentage{
+  height: 25%;
+}
+
+.w-35-vw{
+  width: 35vw;
+}
+
+.text-dotted{
+  text-decoration: dotted;
+}

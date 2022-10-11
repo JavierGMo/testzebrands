@@ -1,28 +1,35 @@
+import { useDispatch } from 'react-redux';
 import { usePagination } from "hooks/usePagination";
 
 type SimplePaginationProps = {
-    onPageChange: (index: number)=>void
+    onPageChange: (index: number)=>void;
+    actionPerPage?: (page?: number)=>void;
     totalItems: number;
     pageSize: number;
     currentPage: number;
     siblingCount: number;
 };
 
-export function SimplePagination({ onPageChange, totalItems, pageSize, currentPage, siblingCount }: SimplePaginationProps) {
+export function SimplePagination({ onPageChange, actionPerPage, totalItems, pageSize, currentPage, siblingCount }: SimplePaginationProps) {
     const pagination = usePagination(
       totalItems,
       pageSize,
       currentPage,
       siblingCount  
     );
-    if(currentPage === 0 || (pagination?.length && pagination.length < 2)) return (<></>);
 
+    const dispatch = useDispatch();
+
+    if(currentPage === 0 || totalItems === 0 || (pagination?.length && pagination.length < 2)) return (<></>);
+    
     const onNext = ()=>{
         onPageChange(currentPage+1);
+        //dispatch(currentPageReducer(currentPage+1));
     }
 
     const onPrevious = ()=>{
         onPageChange(currentPage-1);
+        //dispatch(currentPageReducer(currentPage-1));
     }
 
     const lastPage =  pagination?pagination[pagination?.length - 1]:1;
@@ -51,10 +58,13 @@ export function SimplePagination({ onPageChange, totalItems, pageSize, currentPa
                                     className={`pagination-link ${page===currentPage?'is-current':''}`}
                                     aria-label={`Goto page ${page}`}
                                     onClick={()=>{
-                                        if(typeof page === 'number') onPageChange(page);
+                                        if(typeof page !== 'number') return;
+                                        onPageChange(page);
+                                        //dispatch(currentPageReducer(page));
+                                        //actionPerPage(page);
                                     }}
                                 >
-                                        {page}
+                                    {page}
                                 </a>
                             </li>
                         );

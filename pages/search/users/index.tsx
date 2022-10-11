@@ -1,14 +1,15 @@
 import { SearchLayout } from "components/layout/SearchLayout";
-import { BasicCard } from "components/cards/BasicCard";
 
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import type { RootState } from "store";
 import { selectSearchFilterForUsers } from "lib/utils/utils";
 import { UsersRequest } from "classes/request/UsersRequest";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ItemUser } from "types/DataFromGitHubTypes";
-import { SimplePagination } from "components/pagination/SimplePagination";
-
+import { UserCard } from "components/cards/UserCard";
+import { totalItems as totalItemsReducer } from "store/slices/counters/counterPaginationSlice";
+import { showLoader } from "store/slices/loaders/simpleLoaderSlice"
 
 const opt = [
     {
@@ -41,11 +42,12 @@ export default function SearchUsers(){
     const searches = useSelector((state: RootState)=> state.shearches.value);
     const menuOptionSearch = useSelector((state: RootState) => state.menuOptionSearch.value);
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [userFromGitHub, setUserFromGitHub] = useState<Array<ItemUser>>([]);
 
-    const actionGetUsers = () => {
-        
+    const [userFromGitHub, setUserFromGitHub] = useState<Array<ItemUser>>([]);
+    
+    const dispatch = useDispatch();
+
+    const actionGetUsers = (page: number = 1) => {
         if(!searches || !menuOptionSearch) return;
 
         const endpointWithQueryParams = selectSearchFilterForUsers({
@@ -58,21 +60,31 @@ export default function SearchUsers(){
 
         const catchPromise = async () => {
             try {
+                dispatch(showLoader(true));
                 if(!endpointWithQueryParams) throw new Error("Doesn't exist query param");
                 
-                const resultRequestUser = await requestUsers.getUserByQueryParam(endpointWithQueryParams);
-                if(resultRequestUser.data?.items) setUserFromGitHub(resultRequestUser.data?.items);
+                const resultRequestUser = await requestUsers.getUserByQueryParam(endpointWithQueryParams, page);
                 
-                console.log(endpointWithQueryParams);
+                if(!resultRequestUser.data) return;
+
+                setUserFromGitHub(resultRequestUser.data.items);
+                dispatch(totalItemsReducer(resultRequestUser.data.total_count));
                 
             } catch (error) {
                 console.error(error);
+                dispatch(showLoader(false));
+            }finally{
+                dispatch(showLoader(false));
             }
         };
 
         catchPromise().catch(e=>console.error(e));
         
     };
+
+    useEffect(()=>{
+        //dispatch(totalItemsReducer(0));
+    }, []);
 
     return (
         <SearchLayout
@@ -84,26 +96,17 @@ export default function SearchUsers(){
                 {
                     userFromGitHub?.map((item, index)=>{
                         return (
-                            <BasicCard
-                                typeSearch="User"
+                            <UserCard
                                 key={index}
-                                avatar={item.avatar_url}
-                                className="column is-one-quarter is-narrow mx-3 my-2"
-                                name={item.login}
+                                srcAvatar={item.avatar_url}
+                                userName={item.login}
+                                typeSearch="User"
                                 linkToGitHub={item.html_url}
-                            >
-                            </BasicCard>
+                            />
                         )
                     })
                 }
             </div>
-            <SimplePagination
-                onPageChange={page=>setCurrentPage(page)}
-                totalItems={1210}
-                pageSize={10}
-                currentPage={currentPage}
-                siblingCount={1}
-            />
         </SearchLayout>
     );
 };

@@ -1,9 +1,9 @@
 import Link from "next/link";
-
 import { FormEvent, useEffect } from "react";
 import { ChangeEvent, KeyboardEvent } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from "store";
+
 import { newSearch } from 'store/slices/searches/searchesSlice';
 import { optionSearch } from 'store/slices/menus/menuOptionSearchSlice';
 import { InputTextWithIcon } from "./inputs/InputTextWithIcon";
@@ -15,7 +15,7 @@ type NavBarProps = {
     showSearchInput: boolean;
     placheholderSearch?: string;
     optionsForSearch?: Array<ItemMenu>;
-    actionForSearch?: ()=>void;
+    actionForSearch?: (page?: number)=>void;
 };
 
 const navStyle = {

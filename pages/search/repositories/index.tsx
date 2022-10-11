@@ -8,6 +8,7 @@ import { useState } from "react";
 import { RepositoriesRequest } from "classes/request/RepositoriesRequest";
 import { ItemRepository, ItemUser } from "types/DataFromGitHubTypes";
 import { SimplePagination } from "components/pagination/SimplePagination";
+import { RepositoryCard } from "components/cards/RepositoryCard";
 
 const opt = [
     {
@@ -77,24 +78,18 @@ export default function SearchRepositories(){
         >
         <div className="columns is-multiline is-centered is-3 is-gapless">
             {
-                repositories.map((item, index)=>{
+                repositories.map((repository, index)=>{
                     return (
-                        <BasicCard
-                            typeSearch="Reporsitory"
-                            key={index}
-                            className="column is-one-quarter is-narrow mx-3 my-2"
-                            name={item.name}
-                            labelAboutInformation="About"
-                            aboutInformation={item.description}
-                            linkToGitHub={item.html_url}
-                        >
-                            <OwnerInformation
-                                avatar={item.owner.avatar_url}
-                                linkUserOnGitHub={item.owner.html_url}
-                                name={item.name}
-                                userNameLogin={item.name}
+                        <div key={index} className="column columns is-multiline is-centered is-3 is-gapless">
+                            <RepositoryCard
+                                nameRepository={repository.name}
+                                fullNameRepository={repository.full_name}
+                                linkRepositoryToGitHub={repository.html_url}
+                                descriptionRepository={repository.description}
+                                avatarOwner={repository.owner.avatar_url}
+                                usernameOwner={repository.owner.login}
                             />
-                        </BasicCard>
+                        </div>
                     )
                 })
             }
