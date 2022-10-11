@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, forwardRef, ReactNode, useEffect, useState } from "react";
 import { ChangeEvent, KeyboardEvent } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from "store";
@@ -18,6 +18,13 @@ type NavBarProps = {
     optionsForSearch?: Array<ItemMenu>;
     actionForSearch?: (page?: number)=>void;
 };
+
+interface LinkProps {
+    onClick: ()=>void;
+    href: string;
+}
+
+export type Ref = HTMLAudioElement;
 
 const navStyle = {
     backgroundColor: '#181818',
@@ -71,16 +78,14 @@ export function NavBar({
         dispatch(newSearch(''));
         dispatch(optionSearch(''));
     }, []);
-
+   
     return (
         <nav className="is-flex is-justify-content-space-between is-align-items-center px-4 py-4" style={navStyle}>
             <div>
-                <a href="/">
-                    <CircleAvatar
-                        srcAvatar="/images/octow.png"
-                        altAvatar="Logo octo"
-                    />
-                </a>
+                
+                <Link href="/" passHref>
+                    Home
+                </Link>
             </div>
             {
                 showSearchInput && (
