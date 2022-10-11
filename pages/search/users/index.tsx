@@ -18,7 +18,7 @@ const opt = [
     },
     {
         value: 'login',
-        text: 'Between user',
+        text: 'Between users',
     },
     {
         value: 'name',
