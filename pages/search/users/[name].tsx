@@ -74,7 +74,7 @@ function UserByName( props: {
                     <div className="columns is-multiline is-centered">
                         {
                             someRepos && someRepos?.map((repo, index)=>(
-                                <div key={index} className="column columns is-multiline is-centered is-3 is-gapless">
+                                <div key={index} className="column is-centered is-3">
                                     <RepositoryCard
                                         nameRepository={repo.name}
                                         fullNameRepository={repo.full_name}

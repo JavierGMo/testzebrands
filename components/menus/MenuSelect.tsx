@@ -25,7 +25,7 @@ export function MenuSelect({ className, initialText, options, onChange, value }:
                 value={value}
                 onChange={onChange}
             >
-                <option value="">{ initialText??'Option no selected' }</option>
+                <option value="">{ initialText??'Select a filter' }</option>
                 {
                     options.map((option, index)=>(
                             <option key={index} value={option.value}>{option.text}</option>
