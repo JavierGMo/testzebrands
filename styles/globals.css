@@ -82,8 +82,7 @@ a {
 
 
 @media only screen 
-  and (max-width: 900px)
-  and (-webkit-min-device-pixel-ratio: 2) {
+  and (max-width: 900px) {
 
     .w-10vw-mobile{
       width: 10vw!important;
@@ -92,4 +91,11 @@ a {
     .w-100vw-mobile{
       width: 100vw!important;
     }
+    .w-100-percentage-mobile{
+      width: 100%;
+    }
+}
+
+.w-30-percentage{
+  width: 30%;
 }

@@ -20,7 +20,7 @@ export function RepositoryCard({
     showOwner
 }: RepositoryCardProps) {
     return (
-        <div className="card m-2 mx-2">
+        <div className="card m-2 mx-2 w-30-percentage w-100-percentage-mobile ">
             <header className="card-header">
                 <a href={`/search/repositories/${usernameOwner}/${nameRepository}`} className="card-header-title is-underlined">{nameRepository}</a>
             </header>
