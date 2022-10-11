@@ -48,3 +48,7 @@ a {
 .text-dotted{
   text-decoration: dotted;
 }
+
+.divider-vertical{
+  border-left: 1px solid hsl(0, 0%, 71%);
+}

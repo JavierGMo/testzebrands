@@ -1,20 +1,20 @@
-import { DataUsersGitHub } from "types/DataFromGitHubTypes";
+import { DataUsersGitHub, UserDataComplete } from "types/DataFromGitHubTypes";
 import BaseRequest from "./BaseRequest";
 
 export class UsersRequest extends BaseRequest{
     constructor() {super();}
 
     async getUserByQueryParam(toSearch: string='', page: number=1){
-        page
         if(!toSearch) throw new Error("The query param must not to be empty");
         
         // toSearch: `search/users?q=${userToSearch} in:login`
         const fullPathEndoPoint = `search/users?q=${toSearch}&page=${page}&per_page=10&sort=stars&order=desc`
-        const requestUsers = await this.makeRequest<DataUsersGitHub>({
-            pathEndpoint: fullPathEndoPoint
-        });
+        
 
         try {
+            const requestUsers = await this.makeRequest<DataUsersGitHub>({
+                pathEndpoint: fullPathEndoPoint
+            });
             return requestUsers;
         } catch (error) {
             console.error(error);
@@ -22,6 +22,18 @@ export class UsersRequest extends BaseRequest{
             
         }
         
+    }
+
+    async getUserByLogin(login: string) {
+        if(!login) throw new Error("Username is requerid");
+
+        const fullPathEndoPoint = `users/${login}`;
+        
+        const requestUser = await this.makeRequest<UserDataComplete>({
+            pathEndpoint: fullPathEndoPoint
+        });
+        
+        return requestUser;
     }
 
 }

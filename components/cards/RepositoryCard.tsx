@@ -20,7 +20,7 @@ export function RepositoryCard({
     return (
         <div className="card m-2 w-35-vw">
             <header className="card-header">
-                <a href={`/searches/repositories/${nameRepository}`} className="card-header-title is-underlined">{nameRepository}</a>
+                <a href={`/search/repositories/${usernameOwner}/${nameRepository}`} className="card-header-title is-underlined">{nameRepository}</a>
             </header>
             <div className="card-content">
                 <div className="h-25-vh">

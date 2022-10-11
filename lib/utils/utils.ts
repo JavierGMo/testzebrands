@@ -79,3 +79,23 @@ export const range = (start: number, end: number, step: number=1)=>{
     },
     (_, i)=>i+start);
 };
+
+export function parseDateToString(date: string): string{
+    const dateObj = new Date(date);
+    const parseDate = `${dateObj.getDay()}/${dateObj.getMonth()+1}/${dateObj.getFullYear()}`;
+    return parseDate;
+}
+
+export function formatBytes(bytes: number = 0): string{
+    const decimals = 2;
+
+    if(bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+}

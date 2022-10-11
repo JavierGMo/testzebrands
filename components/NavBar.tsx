@@ -57,7 +57,7 @@ export function NavBar({
     }, []);
 
     return (
-        <nav className="level is-flex px-4 py-2" style={navStyle}>
+        <nav className="is-flex px-4 py-2" style={navStyle}>
             {
                 showSearchInput && (
                     <div className="columns">

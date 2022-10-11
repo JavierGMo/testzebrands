@@ -1,5 +1,5 @@
 import { accessToDataFromRequest } from "lib/utils/utils";
-import { DataRepositoriesGitHub, DataUsersGitHub, ItemRepository } from "types/DataFromGitHubTypes";
+import { DataRepositoriesGitHub, DataUsersGitHub, ItemRepository, OwnerRepository, RepositoryDataComplete } from "types/DataFromGitHubTypes";
 import { ResultResponse } from "types/RequestTypes";
 import BaseRequest from "./BaseRequest";
 
@@ -46,4 +46,28 @@ export class RepositoriesRequest extends BaseRequest{
         }
     }
 
+    async getRepositoryByUserAndRepoName(user: string, repoName: string){
+        if(!user || !repoName) throw new Error("User and repo name is requerid");
+
+        const fullPathEndoPoint = `repos/${user}/${repoName}`;
+
+        const requestRepository = await this.makeRequest<RepositoryDataComplete>({
+            pathEndpoint: fullPathEndoPoint
+        });
+
+        return requestRepository;
+
+    }
+
+    async getSomeContributorsRepo(user: string, repoName: string){
+        if(!user || !repoName) throw new Error("User and repo name is requerid");
+
+        const fullPathEndoPoint = `repos/${user}/${repoName}/contributors?page=1&per_page=10`;
+
+        const requestContributors = await this.makeRequest<Array<OwnerRepository>>({
+            pathEndpoint: fullPathEndoPoint
+        });
+
+        return requestContributors;
+    }
 }

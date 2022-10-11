@@ -1,0 +1,23 @@
+.divParent{
+    width: 100%;
+    height: 30vh;
+    overflow: hidden;
+}
+
+.divChild{
+    width: 100%;
+    height: 70vh;
+    position: relative;
+}
+
+.image{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.image figure{
+    display: block;
+    width: auto;
+    height: auto;
+}
