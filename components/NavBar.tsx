@@ -7,9 +7,8 @@ import type { RootState } from "store";
 import { newSearch } from 'store/slices/searches/searchesSlice';
 import { optionSearch } from 'store/slices/menus/menuOptionSearchSlice';
 import { InputTextWithIcon } from "./inputs/InputTextWithIcon";
-import { faSearchengin } from '@fortawesome/free-brands-svg-icons'
 import { ItemMenu, MenuSelect } from "./menus/MenuSelect";
-import { CircleAvatar } from "./avatars/CircleAvatar";
+
 
 
 type NavBarProps = {
@@ -42,7 +41,16 @@ export function NavBar({
     const menuOptionSearch = useSelector((state: RootState) => state.menuOptionSearch.value);
     
     const [placeholder, setPlaceholer] = useState('Search...');
-    const [search, setSearch] = useState('');
+    const [menuOptionsDropdown, setMenuOptionsDropdown] = useState([
+        {
+            href: "/search/users",
+            text: "Search Users"
+        },
+        {
+            href: "/search/repositories",
+            text: "Search Repositories"
+        }
+    ]);
 
     const dispatch = useDispatch();
 
@@ -80,9 +88,8 @@ export function NavBar({
     }, []);
    
     return (
-        <nav className="is-flex is-justify-content-space-between is-align-items-center px-4 py-4" style={navStyle}>
-            <div>
-                
+        <nav className="is-flex-widescreen-only is-justify-content-space-between is-align-items-center px-4 py-4" style={navStyle}>
+            <div className="is-flex-mobile is-justify-content-center py-2">
                 <Link href="/" passHref>
                     Home
                 </Link>
@@ -121,11 +128,12 @@ export function NavBar({
                     </div>
                 )
             }
-            <div className="is-flex">
+            <div className="is-flex-widescreen-only">
                 <div className="mx-1">
                     <Link href={'/search/users'} >Search Users</Link>
                 </div>
-                <div className="mx-2 divider-vertical"></div>
+                <div className="is-hidden-mobile mx-2 divider-vertical"></div>
+                <div className="is-hidden-widescreen-only mx-2 divider-horizontal"></div>
                 <div className="mx-1">
                     <Link href={'/search/repositories'} >Search Repositories</Link>
                 </div>

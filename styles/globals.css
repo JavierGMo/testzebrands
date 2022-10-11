@@ -53,6 +53,10 @@ a {
   border-left: 1px solid hsl(0, 0%, 71%);
 }
 
+.divider-horizontal{
+  border-bottom: 1px solid hsl(0, 0%, 71%);
+}
+
 .input-custom::-webkit-input-placeholder {
   color: #181818;
   font-weight: bold;
@@ -74,4 +78,15 @@ a {
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+
+    .w-10vw-mobile{
+      width: 10vw;
+    }
 }
