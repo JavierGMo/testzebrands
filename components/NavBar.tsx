@@ -73,8 +73,8 @@ export function NavBar({
     }, []);
    
     return (
-        <nav className="is-flex-widescreen-only is-justify-content-space-between is-align-items-center px-4 py-4" style={navStyle}>
-            <div className="is-flex-mobile is-justify-content-center py-2">
+        <nav className="is-flex-widescreen-only is-flex-desktop-only is-justify-content-space-between is-align-items-center px-4 py-4" style={navStyle}>
+            <div className="is-flex-mobile is-flex-tablet-only is-justify-content-center py-2">
                 <Link href="/" passHref>
                     Home
                 </Link>
