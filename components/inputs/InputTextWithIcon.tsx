@@ -34,7 +34,7 @@ export function InputTextWithIcon({
         <div className="field">
             <div className="control has-icons-left has-icons-right">
                 <input
-                    className="input is-success"
+                    className="input input-custom"
                     type="text"
                     placeholder={placeholder}
                     value={value}

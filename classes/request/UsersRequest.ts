@@ -1,4 +1,4 @@
-import { DataUsersGitHub, UserDataComplete } from "types/DataFromGitHubTypes";
+import { DataUsersGitHub, ItemRepository, UserDataComplete } from "types/DataFromGitHubTypes";
 import BaseRequest from "./BaseRequest";
 
 export class UsersRequest extends BaseRequest{
@@ -34,6 +34,19 @@ export class UsersRequest extends BaseRequest{
         });
         
         return requestUser;
+    }
+
+    async getSomeReposOfSpeficUser(login: string){
+        if(!login) throw new Error("Username is requerid");
+
+        const fullPathEndoPoint = `users/${login}/repos?page=1&per_page=10`;
+        
+        const requestSomeRepos = await this.makeRequest<Array<ItemRepository>>({
+            pathEndpoint: fullPathEndoPoint
+        });
+        
+        return requestSomeRepos;
+
     }
 
 }

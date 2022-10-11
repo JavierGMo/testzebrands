@@ -3,12 +3,13 @@ import { useState } from "react";
 import type { RootState } from "store";
 import { useSelector } from "react-redux";
 
-
 import { NavBar } from "components/NavBar";
 import { ItemMenu } from "components/menus/MenuSelect";
 import { SimplePagination } from "components/pagination/SimplePagination";
 import { SimpleLoader } from "components/loader/SimpleLoader";
 
+import { useDispatch } from 'react-redux';
+import { totalItems as totalItemsReducer } from "store/slices/counters/counterPaginationSlice";
 
 type SearchLayoutProps = {
     children: ReactNode;
@@ -22,11 +23,15 @@ export function SearchLayout({ children, placeholderSearch, optionsForSearch, ac
     const isShowLoader = useSelector((state: RootState)=>state.showingLoader.show);
 
     const [currentPage, setCurrentPage] = useState(1);
+
+    const dispatch = useDispatch();
+    
     const handlerOnPageChange = (page: number = 1)=>{
         actionForSearch(page);
         setCurrentPage(page);
     }
     useEffect(()=>{
+        dispatch(totalItemsReducer(0));
     }, []);
     
     return (

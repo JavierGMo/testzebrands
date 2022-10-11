@@ -102,14 +102,11 @@ export default function RepositoryByName(props: {
 export async function getServerSideProps(context: {
     query: {user: string; name: string;}
 }) {
-    console.log('data chida', context);
-
     const { query: { name: repoName, user } } = context;
 
     const requestRepository = new RepositoriesRequest();
     const { data, error } = await requestRepository.getRepositoryByUserAndRepoName(user, repoName);
     const someContributors = await requestRepository.getSomeContributorsRepo(user, repoName);
-    console.log(someContributors.data, 'hlla pende');
     
     if(error || !data || !someContributors.data)
         return {

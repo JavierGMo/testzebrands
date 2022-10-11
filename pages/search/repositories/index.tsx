@@ -1,14 +1,14 @@
-import { BasicCard } from "components/cards/BasicCard";
-import { OwnerInformation } from "components/information/OwnerInformation";
 import { SearchLayout } from "components/layout/SearchLayout";
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import type { RootState } from "store";
-import { selectSearchFilterForRepositories, selectSearchFilterForUsers } from "lib/utils/utils";
+import { selectSearchFilterForRepositories } from "lib/utils/utils";
 import { useState } from "react";
 import { RepositoriesRequest } from "classes/request/RepositoriesRequest";
-import { ItemRepository, ItemUser } from "types/DataFromGitHubTypes";
-import { SimplePagination } from "components/pagination/SimplePagination";
+import { ItemRepository } from "types/DataFromGitHubTypes";
 import { RepositoryCard } from "components/cards/RepositoryCard";
+import { showLoader } from "store/slices/loaders/simpleLoaderSlice";
+import { totalItems as totalItemsReducer } from "store/slices/counters/counterPaginationSlice";
 
 const opt = [
     {
@@ -41,10 +41,11 @@ export default function SearchRepositories(){
     const searches = useSelector((state: RootState)=> state.shearches.value);
     const menuOptionSearch = useSelector((state: RootState) => state.menuOptionSearch.value);
     
-    const [currentPage, setCurrentPage] = useState(1);
     const [repositories, setRepositories] = useState<Array<ItemRepository>>([]);
 
-    const actionSearch = () => {
+    const dispatch = useDispatch();
+
+    const actionSearch = (page: number=1) => {
         if(!searches || !menuOptionSearch) return;
 
         const endponitWithQueryParams = selectSearchFilterForRepositories({
@@ -56,14 +57,23 @@ export default function SearchRepositories(){
 
         const catchPromise = async () => {
             try {
+                dispatch(showLoader(true));
                 if(!endponitWithQueryParams) throw new Error("Doesn't exist query param");
 
-                const resultRequestRepositories = await requestRepositories.getRepositoriesByFilter(endponitWithQueryParams);
+                const resultRequestRepositories = await requestRepositories.getRepositoriesByFilter(endponitWithQueryParams, page);
 
-                setRepositories(resultRequestRepositories);
+                if(!resultRequestRepositories.data){
+                    dispatch(showLoader(false));
+                    return;
+                }
+                dispatch(totalItemsReducer(resultRequestRepositories.data.total_count));
+                setRepositories(resultRequestRepositories.data?.items);
                 
             } catch (error: any) {
                 console.error(error);
+                dispatch(showLoader(false));
+            }finally{
+                dispatch(showLoader(false));
             }
         };
 
@@ -88,19 +98,13 @@ export default function SearchRepositories(){
                                 descriptionRepository={repository.description}
                                 avatarOwner={repository.owner.avatar_url}
                                 usernameOwner={repository.owner.login}
+                                showOwner={true}
                             />
                         </div>
                     )
                 })
             }
         </div>
-        <SimplePagination
-            onPageChange={page=>setCurrentPage(page)}
-            totalItems={1210}
-            pageSize={10}
-            currentPage={currentPage}
-            siblingCount={1}
-        />
         </SearchLayout>
     );
 };

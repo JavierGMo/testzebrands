@@ -3,20 +3,21 @@ import { CircleAvatar } from "components/avatars/CircleAvatar";
 import { BaseLayout } from "components/layout/BaseLayout";
 
 import { useState } from "react";
-import { UserDataComplete } from "types/DataFromGitHubTypes";
+import { ItemRepository, UserDataComplete } from "types/DataFromGitHubTypes";
 
-import classes from "styles/profiles/UserProfile.module.css";
 import { LinkWithIcon } from "components/links/LinkWithIcon";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { Divider } from "components/dividers/Divider";
-import { SimpleInformation } from "components/information/SimpleInformation";
 import { parseDateToString } from "lib/utils/utils";
 import { SimpleTag } from "components/tags/SimpleTag";
+import { RepositoryCard } from "components/cards/RepositoryCard";
 
 function UserByName( props: {
-    data: UserDataComplete
+    data: UserDataComplete,
+    someRepos: ItemRepository[]
 }) {
     const [user] = useState<UserDataComplete>(props.data);
+    const [someRepos] = useState<Array<ItemRepository>>(props.someRepos)
+
     const created = parseDateToString(user.created_at);
     const update = parseDateToString(user.updated_at);
     return (
@@ -30,7 +31,7 @@ function UserByName( props: {
                             srcAvatar={user.avatar_url}
                             altAvatar={user.name}
                         />
-                        <p className="is-size-6 has-text-weight-semibold">{user.name}</p>
+                        <p className="is-size-6 has-text-weight-semibold mt-3">{user.name}</p>
                         <p className="is-size-7 mb-2">{user.login}</p>
                     </div>
                     <div className="mb-2">
@@ -54,7 +55,7 @@ function UserByName( props: {
                </div>
                <div className="column is-1 divider-vertical"></div>
                <div className="column is-7">
-                <div className="">
+                <div>
                     <p className="is-size-2 has-text-weight-bold">{user.name}</p>
                     <p className="is-size-5 mb-2">{user.login}</p>
                     <SimpleTag shortTextTag={user.type} colorTag="is-link" />
@@ -66,6 +67,26 @@ function UserByName( props: {
                         <div className="column">Followers: {user.followers}</div>
                         <div className="column is-1 divider-vertical"></div>
                         <div className="column">Following: {user.following}</div>
+                    </div>
+                </div>
+                <div>
+                    <p className="is-size-4 has-text-weight-semibold">Some repos</p>
+                    <div className="columns is-multiline is-centered">
+                        {
+                            someRepos && someRepos?.map((repo, index)=>(
+                                <div key={index} className="column columns is-multiline is-centered is-3 is-gapless">
+                                    <RepositoryCard
+                                        nameRepository={repo.name}
+                                        fullNameRepository={repo.full_name}
+                                        linkRepositoryToGitHub={repo.html_url}
+                                        descriptionRepository={repo.description}
+                                        avatarOwner={repo.owner.avatar_url}
+                                        usernameOwner={repo.owner.login}
+                                        showOwner={false}
+                                    />
+                                </div>
+                            ))
+                        }
                     </div>
                 </div>
                </div>
@@ -85,7 +106,9 @@ export async function getServerSideProps(context: {
     const requestUser = new UsersRequest();
     
     const {data, error} = await requestUser.getUserByLogin(name);
-    if(error || !data)
+    const someRepos = await requestUser.getSomeReposOfSpeficUser(name);
+
+    if(error || !data || !someRepos.data)
         return {
             redirect: {
                 destination: '/search/users',
@@ -96,12 +119,11 @@ export async function getServerSideProps(context: {
             }
         }
         
-    const dataUser: UserDataComplete = data;
-    console.log(dataUser);
-        
+    const dataUser: UserDataComplete = data;    
     return {
         props: {
-            data: dataUser
+            data: dataUser,
+            someRepos: someRepos.data
         }
     };
 }

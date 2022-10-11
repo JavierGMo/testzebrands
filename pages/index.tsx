@@ -26,6 +26,7 @@ function Home ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>)
                   nameRepository={repository.name}
                   usernameOwner={repository.owner.login}
                   descriptionRepository={repository.description}
+                  showOwner={true}
                 />
               </div>
             ))
@@ -46,19 +47,12 @@ export async function getServerSideProps() {
 
   try {
     const randomRepositories = await requestRepositories.getRepositoriesByNameTechnologyRandom();
-    console.log(randomRepositories);
-    
     if(randomRepositories) {
-      console.log('Hola');
       data.push(...randomRepositories);
     }
   } catch (error) {
     console.error(error);
   }
-
-  console.log(data);
-  
-
   return {
     props: {
       data

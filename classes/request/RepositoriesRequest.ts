@@ -12,11 +12,8 @@ export class RepositoriesRequest extends BaseRequest{
         
         const indexLanguage = Math.ceil(Math.random()*languagesLen-1);
         try {
-            console.log('idnex', indexLanguage);
-            
-            console.log(languages[indexLanguage], 'index');
             const fullPathEndoPoint = `search/repositories?q=language:${languages[indexLanguage]}&sort=stars&order=desc&page=1&per_page=10`;
-            console.log(fullPathEndoPoint);
+            
             const requestRepositories = await this.makeRequest<DataRepositoriesGitHub>({
                 pathEndpoint: fullPathEndoPoint
             });            
@@ -35,20 +32,20 @@ export class RepositoriesRequest extends BaseRequest{
         
     }
 
-    async getRepositoriesByFilter(toSearch:string=''){
+    async getRepositoriesByFilter(toSearch:string='', page: number=1){
         if(!toSearch) throw new Error("The query param must not to be empty");
 
         
 
         try {
             const requestRepositories = await this.makeRequest<DataRepositoriesGitHub>({
-                pathEndpoint: `search/repositories?q=${toSearch}&page=1&per_page=10&sort=stars&order=desc`
+                pathEndpoint: `search/repositories?q=${toSearch}&page=${page}&per_page=10&sort=stars&order=desc`
             });
             if(requestRepositories.error) throw new Error("Error in request repositories", requestRepositories.error);
             
             if(!requestRepositories.data?.items)throw new Error("Data doesn't exist");
 
-            return requestRepositories.data.items;
+            return requestRepositories;
         } catch (error) {
             console.error(error);
             throw new Error(`Error in request repositories: ${error}`);

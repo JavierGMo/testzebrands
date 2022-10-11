@@ -24,15 +24,13 @@ export function MenuSelect({ className, initialText, options, onChange, value }:
             <select
                 value={value}
                 onChange={onChange}
-                onKeyUp={(e)=>{
-                    // TODO Agregar un evento enter aqui
-                    console.log(e);
-                    
-                }}
             >
                 <option value="">{ initialText??'Option no selected' }</option>
                 {
-                    options.map((option, index)=><option key={index} value={option.value}>{option.text}</option>)
+                    options.map((option, index)=>(
+                            <option key={index} value={option.value}>{option.text}</option>
+                        )
+                    )
                 }
             </select>
         </div>

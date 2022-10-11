@@ -47,7 +47,7 @@ export default function SearchUsers(){
     
     const dispatch = useDispatch();
 
-    const actionGetUsers = (page: number = 1) => {
+    const actionGetUsers = (page: number=1) => {
         if(!searches || !menuOptionSearch) return;
 
         const endpointWithQueryParams = selectSearchFilterForUsers({
@@ -65,7 +65,10 @@ export default function SearchUsers(){
                 
                 const resultRequestUser = await requestUsers.getUserByQueryParam(endpointWithQueryParams, page);
                 
-                if(!resultRequestUser.data) return;
+                if(!resultRequestUser.data){
+                    dispatch(showLoader(false));
+                    return;
+                }
 
                 setUserFromGitHub(resultRequestUser.data.items);
                 dispatch(totalItemsReducer(resultRequestUser.data.total_count));
