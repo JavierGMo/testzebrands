@@ -20,7 +20,58 @@ a {
     color-scheme: dark;
   }
   body {
-    color: white;
-    background: black;
+    color: #181818;
+    background: #F2F2F2;
   }
+}
+
+.truncate-text-w-100px{
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.h-25-vh{
+  height: 25vh;
+}
+
+.h-25-percentage{
+  height: 25%;
+}
+
+.w-35-vw{
+  width: 35vw;
+}
+
+.text-dotted{
+  text-decoration: dotted;
+}
+
+.divider-vertical{
+  border-left: 1px solid hsl(0, 0%, 71%);
+}
+
+.input-custom::-webkit-input-placeholder {
+  color: #181818;
+  font-weight: bold;
+}
+
+.input-custom::-moz-placeholder {
+  color: #181818;
+  font-weight: bold;
+}
+
+.input-custom:-o-input-placeholder {
+  color: #181818;
+  font-weight: bold;
+}
+
+.truncate-text-height {
+  display: -webkit-box;
+  max-width: 100%;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
