@@ -9,16 +9,25 @@ export class RepositoriesRequest extends BaseRequest{
     async getRepositoriesByNameTechnologyRandom(){
         const languages = ['javascript', 'php', 'java', 'spring'];
         const languagesLen = languages.length;
-        const indexLanguage = (Math.random()*languagesLen);
+        
+        const indexLanguage = Math.ceil(Math.random()*languagesLen-1);
         try {
-            const requestRepositories: ResultResponse<DataRepositoriesGitHub> = await this.makeRequest<DataRepositoriesGitHub>({
-                pathEndpoint: `repositories?q=${languages[indexLanguage]} in:name&sort=stars&order=desc&page=1&per_page=1`
+            console.log('idnex', indexLanguage);
+            
+            console.log(languages[indexLanguage], 'index');
+            const fullPathEndoPoint = `search/repositories?q=language:${languages[indexLanguage]}&sort=stars&order=desc&page=1&per_page=10`;
+            console.log(fullPathEndoPoint);
+            const requestRepositories = await this.makeRequest<DataRepositoriesGitHub>({
+                pathEndpoint: fullPathEndoPoint
             });            
             //Change to repositories and not repositories with more data
             if(!requestRepositories?.data) throw new Error("Data not found");
 
-            const res = accessToDataFromRequest<Array<ItemRepository>>(Object.entries(requestRepositories));
-            return res;
+            //const res = accessToDataFromRequest<Array<ItemRepository>>(Object.entries(requestRepositories));
+            
+            
+            return requestRepositories.data.items;
+
         } catch (error) {
             console.error(error);
             throw new Error("Error in request random repositories");

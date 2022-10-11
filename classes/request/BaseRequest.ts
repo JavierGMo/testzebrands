@@ -13,7 +13,6 @@ export default class BaseRequest {
 
     async makeRequest<T>({ method='GET', pathEndpoint, body }: MakeRequestParams): Promise<ResultResponse<T>>{
         const fullPath = `${this.BASE_PATH}${pathEndpoint}`;
-        console.log(fullPath);
         
         const request = await fetch(fullPath, {
             method,
@@ -29,9 +28,6 @@ export default class BaseRequest {
         
         try {
             const resultJSON: T = await request.json();
-            console.log(resultJSON, '*******');
-            
-            
             if(resultJSON) resultResponse.data = resultJSON;
             resultResponse.statusRequest = request.status;
         } catch (error: any) {
