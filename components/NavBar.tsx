@@ -18,11 +18,6 @@ type NavBarProps = {
     actionForSearch?: (page?: number)=>void;
 };
 
-interface LinkProps {
-    onClick: ()=>void;
-    href: string;
-}
-
 export type Ref = HTMLAudioElement;
 
 const navStyle = {
@@ -41,16 +36,6 @@ export function NavBar({
     const menuOptionSearch = useSelector((state: RootState) => state.menuOptionSearch.value);
     
     const [placeholder, setPlaceholer] = useState('Search...');
-    const [menuOptionsDropdown, setMenuOptionsDropdown] = useState([
-        {
-            href: "/search/users",
-            text: "Search Users"
-        },
-        {
-            href: "/search/repositories",
-            text: "Search Repositories"
-        }
-    ]);
 
     const dispatch = useDispatch();
 

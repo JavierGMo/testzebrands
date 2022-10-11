@@ -21,7 +21,7 @@ function Home ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>)
       <div className="columns is-multiline is-centered is-desktop is-3">
           {
             data && data?.map((repository, index)=>(
-              <div key={index} className="column is-multiline is-centered is-3 ">
+              <div key={index} className="column is-multiline is-centered is-3 mr-4">
                 <RepositoryCard
                   avatarOwner={repository.owner.avatar_url}
                   fullNameRepository={repository.full_name}

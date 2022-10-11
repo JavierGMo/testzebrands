@@ -21,8 +21,9 @@ type MenuSelectProps = {
 export function MenuSelect({ className, initialText, options, onChange, value }: MenuSelectProps) {
 
     return (
-        <div className={`select ${className}`}>
+        <div className={`select ${className?className:''}`}>
             <select
+                className="w-10vw-mobile"
                 value={value}
                 onChange={onChange}
             >

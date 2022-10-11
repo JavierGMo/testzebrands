@@ -90,17 +90,16 @@ export default function SearchRepositories(){
             {
                 repositories.map((repository, index)=>{
                     return (
-                        <div key={index} className="column columns is-multiline is-centered is-3 is-gapless">
-                            <RepositoryCard
-                                nameRepository={repository.name}
-                                fullNameRepository={repository.full_name}
-                                linkRepositoryToGitHub={repository.html_url}
-                                descriptionRepository={repository.description}
-                                avatarOwner={repository.owner.avatar_url}
-                                usernameOwner={repository.owner.login}
-                                showOwner={true}
-                            />
-                        </div>
+                        <RepositoryCard
+                            key={index}
+                            nameRepository={repository.name}
+                            fullNameRepository={repository.full_name}
+                            linkRepositoryToGitHub={repository.html_url}
+                            descriptionRepository={repository.description}
+                            avatarOwner={repository.owner.avatar_url}
+                            usernameOwner={repository.owner.login}
+                            showOwner={true}
+                        />
                     )
                 })
             }

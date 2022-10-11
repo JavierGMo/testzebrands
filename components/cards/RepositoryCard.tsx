@@ -20,14 +20,12 @@ export function RepositoryCard({
     showOwner
 }: RepositoryCardProps) {
     return (
-        <div className="card m-2 w-35-vw">
+        <div className="card m-2 mx-2">
             <header className="card-header">
                 <a href={`/search/repositories/${usernameOwner}/${nameRepository}`} className="card-header-title is-underlined">{nameRepository}</a>
             </header>
             <div className="card-content">
-                <div className="h-25-vh">
-                    <p className="truncate-text-height">{descriptionRepository}</p>
-                </div>
+                <p className="truncate-text-height">{descriptionRepository}</p>
             </div>
             {
                 showOwner && <footer className="card-footer is-flex is-flex-direction-column px-5 py-3">

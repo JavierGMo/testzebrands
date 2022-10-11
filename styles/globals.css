@@ -82,11 +82,14 @@ a {
 
 
 @media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 480px)
+  and (max-width: 900px)
   and (-webkit-min-device-pixel-ratio: 2) {
 
     .w-10vw-mobile{
-      width: 10vw;
+      width: 10vw!important;
+    }
+
+    .w-100vw-mobile{
+      width: 100vw!important;
     }
 }
